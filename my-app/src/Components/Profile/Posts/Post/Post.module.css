@@ -1,0 +1,14 @@
+.post {
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+}
+
+.user {
+  border: 1px solid black;
+  padding: 5px;
+}
+
+.postText {
+  border: 1px solid black;
+  padding: 5px;
+}

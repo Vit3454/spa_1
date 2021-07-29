@@ -1,0 +1,17 @@
+.posts {
+  border: 1px solid Fuchsia;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.newPost {
+  border: 1px solid black;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.postList {
+  border: 1px solid black;
+  padding: 10px;
+  margin-bottom: 10px;
+}

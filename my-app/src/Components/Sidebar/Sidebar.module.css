@@ -1,0 +1,12 @@
+.sideBar {
+  grid-area: s;
+}
+
+.sideBar a {
+  text-decoration: none;
+  color: black;
+}
+
+.sideBar a.active {
+  color: red;
+}
