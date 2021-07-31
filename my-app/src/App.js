@@ -7,6 +7,7 @@ import Footer from './Components/Footer/Footer'
 import TestPage from './Components/TestPage/TestPage'
 import { Route } from 'react-router-dom'
 import DialogsContainer from './Components/Dialogs/DialogsContainer'
+import UsersContainer from './Components/Users/Users.container'
 
 const App = (props) => {
   return (
@@ -17,6 +18,7 @@ const App = (props) => {
         <Route path={'/profile'} render={() => <Profile />} />
         <Route path={'/dialogs'} render={() => <DialogsContainer />} />
         <Route path={'/testPage'} render={() => <TestPage />} />
+        <Route path={'/users'} render={() => <UsersContainer />} />
       </div>
       <Footer />
     </div>

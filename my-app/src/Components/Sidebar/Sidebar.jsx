@@ -17,6 +17,11 @@ const Sidebar = () => {
         </NavLink>
       </div>
       <div>
+        <NavLink to={'/users'} activeClassName={s.active}>
+          Пользователи
+        </NavLink>
+      </div>
+      <div>
         <NavLink to={'/testPage'} activeClassName={s.active}>
           Тест стр
         </NavLink>
