@@ -17,11 +17,6 @@ const Users = (props) => {
     />
   ))
 
-  // totalCount
-  // pageSize
-  // pageCount
-  // currentPage
-
   const pageCount = Math.ceil(props.totalUsersCount / props.pageSize)
 
   const pages = []
