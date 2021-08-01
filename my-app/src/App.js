@@ -15,6 +15,7 @@ const App = (props) => {
       <Header />
       <Sidebar />
       <div className={s.content}>
+        <Route path={'/'} exact render={() => <Profile />} />
         <Route path={'/profile'} render={() => <Profile />} />
         <Route path={'/dialogs'} render={() => <DialogsContainer />} />
         <Route path={'/testPage'} render={() => <TestPage />} />

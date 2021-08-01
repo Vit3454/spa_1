@@ -10,11 +10,11 @@ const Posts = (props) => {
 
   // textarea change
   const onChangePost = (e) => {
-    props.onChangePost(e.target.value)
+    props.updateNewPostText(e.target.value)
   }
   // add new post
   const onAddPost = () => {
-    props.onAddPost()
+    props.addPost()
   }
 
   return (

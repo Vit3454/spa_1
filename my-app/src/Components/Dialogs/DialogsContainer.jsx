@@ -13,13 +13,6 @@ const mapStateToProps = (state) => ({
   newMessageText: state.dialogsPage.newMessageText,
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  onChangeMessage: (newMessageText) => {
-    dispatch(updateNewMessageText(newMessageText))
-  },
-  onAddMessage: () => {
-    dispatch(sendMessage())
-  },
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(DialogsContainer)
+export default connect(mapStateToProps, { updateNewMessageText, sendMessage })(
+  DialogsContainer
+)

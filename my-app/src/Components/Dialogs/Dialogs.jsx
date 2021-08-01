@@ -15,12 +15,12 @@ const Dialogs = (props) => {
 
   // change input
   const onChangeMessage = (e) => {
-    props.onChangeMessage(e.target.value)
+    props.updateNewMessageText(e.target.value)
   }
 
   // send messages
   const onAddMessage = () => {
-    props.onAddMessage()
+    props.sendMessage()
   }
 
   return (
