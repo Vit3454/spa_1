@@ -1,11 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
+import { compose } from 'redux'
+import { withAuthRedirect } from '../../hoc/withAuthRedirect'
 import { sendMessage, updateNewMessageText } from '../../redux/dialogs-reducer'
 import Dialogs from './Dialogs'
 
 const DialogsContainer = (props) => {
-  if (!props.isAuth) return <Redirect to={'login'} />
   return <Dialogs {...props} />
 }
 
@@ -16,6 +16,7 @@ const mapStateToProps = (state) => ({
   isAuth: state.auth.isAuth,
 })
 
-export default connect(mapStateToProps, { updateNewMessageText, sendMessage })(
-  DialogsContainer
-)
+export default compose(
+  connect(mapStateToProps, { updateNewMessageText, sendMessage }),
+  withAuthRedirect
+)(Dialogs)

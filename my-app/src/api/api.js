@@ -24,7 +24,6 @@ export const usersAPI = {
   },
 
   getProfile: (userId) => {
-    console.log(userId)
     return instance.get(`profile/${userId}`)
   },
 
