@@ -3,27 +3,14 @@ import s from './User.module.css'
 import osc from '../../../App.module.css'
 import avatar from '../../../images/avatar.png'
 import { NavLink } from 'react-router-dom'
-import { usersAPI } from '../../../api/api'
 
 const User = (props) => {
   const onFollow = (userId) => {
-    props.toggleFollowingInProgress(true, userId)
-    usersAPI.follow(userId).then((response) => {
-      if (response.data.resultCode === 0) {
-        props.follow(userId)
-      }
-      props.toggleFollowingInProgress(false, userId)
-    })
+    props.follow(userId)
   }
 
   const onUnfollow = (userId) => {
-    props.toggleFollowingInProgress(true, userId)
-    usersAPI.unfollow(userId).then((response) => {
-      if (response.data.resultCode === 0) {
-        props.unfollow(userId)
-      }
-      props.toggleFollowingInProgress(false, userId)
-    })
+    props.unfollow(userId)
   }
 
   return (

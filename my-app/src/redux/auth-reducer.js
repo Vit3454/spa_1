@@ -1,3 +1,5 @@
+import { usersAPI } from '../api/api'
+
 const SET_USER_DATA = 'SET_USER_DATA'
 
 const initialState = {
@@ -26,3 +28,14 @@ export const setAuthUserData = (authUserId, email, login) => ({
   type: SET_USER_DATA,
   userData: { authUserId, email, login },
 })
+
+// thunk
+
+export const getAuthUserData = () => (dispatch) => {
+  usersAPI.auth().then((data) => {
+    if (data.resultCode === 0) {
+      let { id, email, login } = data.data
+      dispatch(setAuthUserData(id, email, login))
+    }
+  })
+}
