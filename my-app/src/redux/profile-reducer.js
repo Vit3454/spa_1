@@ -13,10 +13,13 @@ const initialState = {
   ],
   userProfile: null,
   status: null,
+  fake: 1,
 }
 
 const profileReducer = (state = initialState, action) => {
   switch (action.type) {
+    case 'FAKE':
+      return { ...state, fake: state.fake + 1 }
     case ADD_POST:
       const newPost = {
         id: 4,

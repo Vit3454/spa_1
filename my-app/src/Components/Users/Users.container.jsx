@@ -8,6 +8,14 @@ import {
 } from '../../redux/users-reducer'
 import Users from './Users'
 import Preloader from '../Common/Preloader/Preloader'
+import {
+  getCurrentPage,
+  getFollowingInProgress,
+  getIsFetching,
+  getPageSize,
+  getTotalUsersCount,
+  getUsers,
+} from '../../redux/users-selectors'
 
 class UsersContainer extends React.Component {
   componentDidMount() {
@@ -33,14 +41,17 @@ class UsersContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  users: state.usersPage.users,
-  totalUsersCount: state.usersPage.totalUsersCount,
-  pageSize: state.usersPage.pageSize,
-  currentPage: state.usersPage.currentPage,
-  isFetching: state.usersPage.isFetching,
-  followingInProgress: state.usersPage.followingInProgress,
-})
+// mapStateToProps вызывается каждый раз при изменении в state
+const mapStateToProps = (state) => {
+  return {
+    users: getUsers(state),
+    totalUsersCount: getTotalUsersCount(state),
+    pageSize: getPageSize(state),
+    currentPage: getCurrentPage(state),
+    isFetching: getIsFetching(state),
+    followingInProgress: getFollowingInProgress(state),
+  }
+}
 
 export default connect(mapStateToProps, {
   follow,

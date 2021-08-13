@@ -8,3 +8,8 @@
   width: 200px;
   padding: 10px;
 }
+
+.login .overallError {
+  border: 1px solid red;
+  color: red;
+}

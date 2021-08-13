@@ -10,24 +10,17 @@ import Profile from './Profile'
 
 class ProfileContainer extends React.Component {
   componentDidMount() {
+    console.log('componentDidMount')
     let userId = this.props.match.params.userId
     if (!userId) {
-      // userId = this.props.authUserId
-      userId = 18752
+      userId = this.props.authUserId
+      if (!userId) this.props.history.push('/login')
     }
     this.props.getProfile(userId)
     this.props.getStatus(userId)
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.match.params.userId !== this.props.match.params.userId) {
-      const userId = this.props.authUserId
-      this.props.getProfile(userId)
-    }
-  }
-
   render() {
-    // if (!this.props.isAuth) return <Redirect to={'/login'} />
     return (
       <Profile
         userProfile={this.props.userProfile}
@@ -39,12 +32,14 @@ class ProfileContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  userProfile: state.profilePage.userProfile,
-  isAuth: state.auth.isAuth,
-  authUserId: state.auth.authUserId,
-  status: state.profilePage.status,
-})
+const mapStateToProps = (state) => {
+  return {
+    userProfile: state.profilePage.userProfile,
+    isAuth: state.auth.isAuth,
+    status: state.profilePage.status,
+    authUserId: state.auth.authUserId,
+  }
+}
 
 const WithURLDataContainerComponent = withRouter(ProfileContainer)
 
