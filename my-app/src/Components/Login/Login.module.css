@@ -2,3 +2,9 @@
   grid-area: c;
   min-height: 96%;
 }
+
+.login .form {
+  border: 1px solid black;
+  width: 200px;
+  padding: 10px;
+}

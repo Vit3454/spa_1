@@ -3,6 +3,7 @@ import s from './Dialogs.module.css'
 import os from '../../App.module.css'
 import Dialog from './Dialog/Dialog'
 import Message from './Message/Message'
+import ReduxDialogsForm from './DialogsForm/DialogsForm'
 
 const Dialogs = (props) => {
   const dialogsElements = props.dialogs.map((d) => {
@@ -13,25 +14,15 @@ const Dialogs = (props) => {
     return <Message key={m.id} message={m.message} />
   })
 
-  // change input
-  const onChangeMessage = (e) => {
-    props.updateNewMessageText(e.target.value)
-  }
-
   // send messages
-  const onAddMessage = () => {
-    props.sendMessage()
+  const onAddMessage = (formData) => {
+    props.sendMessage(formData.message)
   }
 
   return (
     <>
       <div>
-        <div>
-          <input onChange={onChangeMessage} value={props.newMessageText} />
-        </div>
-        <div>
-          <button onClick={onAddMessage}>Отправить</button>
-        </div>
+        <ReduxDialogsForm onSubmit={onAddMessage} />
       </div>
       <div className={s.dialogs + ' ' + os.block}>
         <div className={s.dialogsItem}>{dialogsElements}</div>
