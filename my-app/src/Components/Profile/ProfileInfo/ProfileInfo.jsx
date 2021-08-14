@@ -4,6 +4,7 @@ import osc from '../../../App.module.css'
 import avatar from '../../../images/avatar.png'
 import Preloader from '../../Common/Preloader/Preloader'
 import ProfileStatus from './ProfileStatus/ProfileStatus'
+import ProfileStatusWithcHooks from './ProfileStatus/ProfileStatusWithHooks'
 
 const ProfileInfo = (props) => {
   if (!props.userProfile) return <Preloader />
@@ -16,7 +17,11 @@ const ProfileInfo = (props) => {
           <img src={avatar} alt={'avatar'} />
         )}
       </div>
-      <ProfileStatus status={props.status} updateStatus={props.updateStatus} />
+      {/* <ProfileStatus status={props.status} updateStatus={props.updateStatus} /> */}
+      <ProfileStatusWithcHooks
+        status={props.status}
+        updateStatus={props.updateStatus}
+      />
       <div className={s.discription}>
         <div>{props.userProfile.fullName}</div>
         <div>{props.userProfile.aboutMe}</div>
