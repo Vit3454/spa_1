@@ -2,8 +2,3 @@
   grid-area: c;
   min-height: 96%;
 }
-
-button.active {
-  border: 1px solid red;
-  color: red;
-}

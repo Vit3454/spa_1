@@ -5,7 +5,6 @@ import Post from './Post/Post'
 import ReduxNewPostForm from './NewPostForm/NewPostForm'
 
 const Posts = (props) => {
-  console.log('render')
   const postElements = props.posts.map((p) => {
     return <Post key={p.id} name={p.name} message={p.message} />
   })

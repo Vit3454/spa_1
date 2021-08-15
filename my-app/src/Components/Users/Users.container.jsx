@@ -19,7 +19,8 @@ import {
 
 class UsersContainer extends React.Component {
   componentDidMount() {
-    this.props.getUsers(this.props.pageSize, this.props.currentPage)
+    let {pageSize, currentPage} = this.props
+    this.props.getUsers(pageSize, currentPage)
   }
 
   onPageChaged = (currentPage) => {

@@ -2,6 +2,7 @@ import React from 'react'
 import s from './Users.module.css'
 import os from '../../App.module.css'
 import User from './User/User'
+import Paginator from './Paginator/Paginator'
 
 const Users = (props) => {
   let users = props.users.map((u) => (
@@ -19,27 +20,9 @@ const Users = (props) => {
     />
   ))
 
-  const pageCount = Math.ceil(props.totalUsersCount / props.pageSize)
-
-  const pages = []
-
-  for (let i = 1; i <= pageCount; i++) {
-    pages.push(i)
-  }
-
   return (
     <div className={os.block + ' ' + s.users}>
-      {pages.map((p) => (
-        <button
-          className={p === props.currentPage ? s.active : undefined}
-          key={p}
-          onClick={() => {
-            props.onPageChaged(p)
-          }}
-        >
-          {p}
-        </button>
-      ))}
+      <Paginator {...props} />
       {users}
     </div>
   )

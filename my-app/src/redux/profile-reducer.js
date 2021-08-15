@@ -1,8 +1,8 @@
 import { usersAPI } from '../api/api'
 
-const ADD_POST = 'ADD_POST'
-const SET_USER_PROFILE = 'SET_USER_PROFILE'
-const SET_STATUS = 'SET_STATUS'
+const ADD_POST = 'PROFILE_REDUCER/ADD_POST'
+const SET_USER_PROFILE = 'PROFILE_REDUCER/SET_USER_PROFILE'
+const SET_STATUS = 'PROFILE_REDUCER/SET_STATUS'
 const DELETE_POST = 'PROFILE_REDUCER/DELETE_POST'
 
 const initialState = {
@@ -65,22 +65,19 @@ export const deletePost = (postId) => ({ type: DELETE_POST, postId })
 
 // thunk
 
-export const getProfile = (userId) => (dispatch) => {
-  usersAPI.getProfile(userId).then((response) => {
-    dispatch(setUserProfile(response.data))
-  })
+export const getProfile = (userId) => async (dispatch) => {
+  const response = await usersAPI.getProfile(userId)
+  dispatch(setUserProfile(response.data))
 }
 
-export const getStatus = (userId) => (dispatch) => {
-  usersAPI.getStatus(userId).then((response) => {
-    dispatch(setStatus(response.data))
-  })
+export const getStatus = (userId) => async (dispatch) => {
+  const response = await usersAPI.getStatus(userId)
+  dispatch(setStatus(response.data))
 }
 
-export const updateStatus = (status) => (dispatch) => {
-  usersAPI.updateStatus(status).then((response) => {
-    if (response.data.resultCode === 0) {
-      dispatch(setStatus(status))
-    }
-  })
+export const updateStatus = (status) => async (dispatch) => {
+  const response = await usersAPI.updateStatus(status)
+  if (response.data.resultCode === 0) {
+    dispatch(setStatus(status))
+  }
 }

@@ -1,0 +1,9 @@
+.paginator {
+  border: 1px solid black;
+  padding: 10px;
+}
+
+button.active {
+  border: 1px solid red;
+  color: red;
+}

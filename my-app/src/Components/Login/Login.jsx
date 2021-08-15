@@ -7,9 +7,9 @@ import { createField, Input } from '../FormsControl/FormsControl'
 
 const maxLength30 = maxLength(30)
 
-const LoginForm = (props) => {
+const LoginForm = ({ handleSubmit, error }) => {
   return (
-    <form onSubmit={props.handleSubmit} className={s.form}>
+    <form onSubmit={handleSubmit} className={s.form}>
       {createField(Input, 'login', [requiredField, maxLength30], 'Email')}
       {createField(
         Input,
@@ -18,10 +18,16 @@ const LoginForm = (props) => {
         'Password',
         'password'
       )}
-      <div>
-        <Field component={'input'} name={'rememberMe'} type={'checkbox'} />
-      </div>
-      {props.error ? <div class={s.overallError}>{props.error}</div> : null}
+      {createField(
+        Input,
+        'rememberMe',
+        [],
+        '',
+        'checkbox',
+        {},
+        'запомнить меня'
+      )}
+      {error ? <div class={s.overallError}>{error}</div> : null}
 
       <div>
         <button>Вход</button>
@@ -34,7 +40,6 @@ const ReduxLoginForm = reduxForm({ form: 'loginForm' })(LoginForm)
 
 const Login = (props) => {
   const onLogin = (formData) => {
-    console.log(formData)
     props.login(formData.login, formData.password, formData.rememberMe)
   }
 
