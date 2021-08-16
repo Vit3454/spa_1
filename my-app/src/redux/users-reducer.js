@@ -1,14 +1,14 @@
-import { usersAPI } from '../api/api'
-import { updateObjectInArray } from '../Components/utils/object-helper'
+import { usersAPI } from "../api/api"
+import { updateObjectInArray } from "../Components/utils/object-helper"
 
-const SET_USERS = 'USERS_REDUCER/SET_USERS'
-const FOLLOW = 'USERS_REDUCER/FOLLOW'
-const UNFOLLOW = 'USERS_REDUCER/UNFOLLOW'
-const SET_TOTAL_USERS_COUNT = 'USERS_REDUCER/SET_TOTAL_USERS_COUNT'
-const SET_CURRENT_PAGE = 'USERS_REDUCER/SET_CURRENT_PAGE'
-const TOGGLE_IS_FETCHING = 'USERS_REDUCER/TOGGLE_IS_FETCHING'
+const SET_USERS = "USERS_REDUCER/SET_USERS"
+const FOLLOW = "USERS_REDUCER/FOLLOW"
+const UNFOLLOW = "USERS_REDUCER/UNFOLLOW"
+const SET_TOTAL_USERS_COUNT = "USERS_REDUCER/SET_TOTAL_USERS_COUNT"
+const SET_CURRENT_PAGE = "USERS_REDUCER/SET_CURRENT_PAGE"
+const TOGGLE_IS_FETCHING = "USERS_REDUCER/TOGGLE_IS_FETCHING"
 const TOGGLE_FOLLOWING_IN_PROGRESS =
-  'USERS_REDUCER/TOGGLE_FOLLOWING_IN_PROGRESS'
+  "USERS_REDUCER/TOGGLE_FOLLOWING_IN_PROGRESS"
 
 const initialState = {
   users: [],
@@ -17,6 +17,7 @@ const initialState = {
   currentPage: 1,
   isFetching: false,
   followingInProgress: [],
+  portionSize: 10,
 }
 
 const usersReducer = (state = initialState, action) => {
@@ -30,7 +31,7 @@ const usersReducer = (state = initialState, action) => {
     case FOLLOW:
       return {
         ...state,
-        users: updateObjectInArray(state.users, 'id', action.userId, {
+        users: updateObjectInArray(state.users, "id", action.userId, {
           followed: true,
         }),
 
@@ -45,7 +46,7 @@ const usersReducer = (state = initialState, action) => {
     case UNFOLLOW:
       return {
         ...state,
-        users: updateObjectInArray(state.users, 'id', action.userId, {
+        users: updateObjectInArray(state.users, "id", action.userId, {
           followed: false,
         }),
 
