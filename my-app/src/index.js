@@ -1,24 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
-import App from './App'
 import reportWebVitals from './reportWebVitals'
-import { BrowserRouter } from 'react-router-dom'
-import store from './redux/store'
-import { Provider } from 'react-redux'
+import AppContainer from './App'
 
-setInterval(() => {
-  store.dispatch({ type: 'FAKE' })
-}, 1000)
-
-ReactDOM.render(
-  <BrowserRouter>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </BrowserRouter>,
-  document.getElementById('root')
-)
+ReactDOM.render(<AppContainer />, document.getElementById('root'))
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

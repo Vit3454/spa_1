@@ -3,7 +3,7 @@ import s from './App.module.css'
 import Sidebar from './Components/Sidebar/Sidebar'
 import Footer from './Components/Footer/Footer'
 import TestPage from './Components/TestPage/TestPage'
-import { Route } from 'react-router-dom'
+import { BrowserRouter, Route } from 'react-router-dom'
 import DialogsContainer from './Components/Dialogs/DialogsContainer'
 import UsersContainer from './Components/Users/Users.container'
 import ProfileContainer from './Components/Profile/ProfileContainer'
@@ -11,6 +11,8 @@ import HeaderContainer from './Components/Header/HeaderContainer'
 import { connect } from 'react-redux'
 import LoginContainer from './Components/Login/LoginContainer'
 import { initialize } from './redux/app-reducer'
+import { Provider } from 'react-redux'
+import store from './redux/store'
 
 class App extends React.Component {
   componentDidMount() {
@@ -44,4 +46,16 @@ const mapStateToProps = (state) => ({
   initialized: state.app.initialized,
 })
 
-export default connect(mapStateToProps, { initialize })(App)
+const ConnectedApp = connect(mapStateToProps, { initialize })(App)
+
+const AppContainer = () => {
+  return (
+    <BrowserRouter>
+      <Provider store={store}>
+        <ConnectedApp />
+      </Provider>
+    </BrowserRouter>
+  )
+}
+
+export default AppContainer

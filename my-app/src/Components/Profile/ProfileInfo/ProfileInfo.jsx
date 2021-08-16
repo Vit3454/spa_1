@@ -17,11 +17,11 @@ const ProfileInfo = (props) => {
           <img src={avatar} alt={'avatar'} />
         )}
       </div>
-      {/* <ProfileStatus status={props.status} updateStatus={props.updateStatus} /> */}
-      <ProfileStatusWithcHooks
+      <ProfileStatus status={props.status} updateStatus={props.updateStatus} />
+      {/* <ProfileStatusWithcHooks
         status={props.status}
         updateStatus={props.updateStatus}
-      />
+      /> */}
       <div className={s.discription}>
         <div>{props.userProfile.fullName}</div>
         <div>{props.userProfile.aboutMe}</div>
