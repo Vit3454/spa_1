@@ -27,7 +27,7 @@ const LoginForm = ({ handleSubmit, error }) => {
         {},
         'запомнить меня'
       )}
-      {error ? <div class={s.overallError}>{error}</div> : null}
+      {error ? <div className={s.overallError}>{error}</div> : null}
 
       <div>
         <button>Вход</button>

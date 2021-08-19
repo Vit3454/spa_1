@@ -1,31 +1,38 @@
-import React from 'react'
+import React, { useState } from 'react'
 import s from './ProfileInfo.module.css'
 import osc from '../../../App.module.css'
-import avatar from '../../../images/avatar.png'
 import Preloader from '../../Common/Preloader/Preloader'
 import ProfileStatus from './ProfileStatus/ProfileStatus'
-import ProfileStatusWithcHooks from './ProfileStatus/ProfileStatusWithHooks'
+import MainPhoto from './MainPhoto/MainPhoto'
+import UserInfo from './UserInfo/UserInfo'
+import UserInfoEditMode from './UserInfoEditMode/UserInfoEditMode'
 
 const ProfileInfo = (props) => {
+  let [editMode, setEditMode] = useState(false)
+
   if (!props.userProfile) return <Preloader />
   return (
     <div className={osc.component + ' ' + s.profileInfo}>
-      <div className={s.ava}>
-        {props.userProfile.photos.large ? (
-          <img src={props.userProfile.photos.large} alt={'avatar'} />
-        ) : (
-          <img src={avatar} alt={'avatar'} />
-        )}
-      </div>
+      <MainPhoto {...props} />
       <ProfileStatus status={props.status} updateStatus={props.updateStatus} />
-      {/* <ProfileStatusWithcHooks
-        status={props.status}
-        updateStatus={props.updateStatus}
-      /> */}
-      <div className={s.discription}>
-        <div>{props.userProfile.fullName}</div>
-        <div>{props.userProfile.aboutMe}</div>
-      </div>
+      {props.isOwner ? (
+        <button
+          onClick={() => {
+            setEditMode(true)
+          }}
+        >
+          Редактировать
+        </button>
+      ) : null}
+      {editMode ? (
+        <UserInfoEditMode
+          {...props}
+          initialValues={props.userProfile}
+          setEditMode={setEditMode}
+        />
+      ) : (
+        <UserInfo {...props} />
+      )}
     </div>
   )
 }

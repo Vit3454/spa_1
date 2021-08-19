@@ -1,0 +1,11 @@
+.ava {
+  border: 1px solid black;
+  width: 200px;
+  height: 200px;
+  margin-bottom: 10px;
+}
+
+.ava img {
+  width: 200px;
+  height: auto;
+}

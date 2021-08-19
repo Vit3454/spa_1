@@ -1,9 +1,11 @@
+import { stopSubmit } from 'redux-form'
 import { usersAPI } from '../api/api'
 
 const ADD_POST = 'PROFILE_REDUCER/ADD_POST'
 const SET_USER_PROFILE = 'PROFILE_REDUCER/SET_USER_PROFILE'
 const SET_STATUS = 'PROFILE_REDUCER/SET_STATUS'
 const DELETE_POST = 'PROFILE_REDUCER/DELETE_POST'
+const SAVE_PHOTO = 'PROFILE_REDUCER/SAVE_PHOTO'
 
 const initialState = {
   posts: [
@@ -48,6 +50,12 @@ const profileReducer = (state = initialState, action) => {
         posts: state.posts.filter((p) => p.id != action.postId),
       }
 
+    case SAVE_PHOTO:
+      return {
+        ...state,
+        userProfile: { ...state.userProfile, photos: action.photos },
+      }
+
     default:
       return state
   }
@@ -62,6 +70,7 @@ export const setUserProfile = (userProfile) => ({
 })
 const setStatus = (status) => ({ type: SET_STATUS, status })
 export const deletePost = (postId) => ({ type: DELETE_POST, postId })
+const savePhotoSuccess = (photos) => ({ type: SAVE_PHOTO, photos })
 
 // thunk
 
@@ -79,5 +88,36 @@ export const updateStatus = (status) => async (dispatch) => {
   const response = await usersAPI.updateStatus(status)
   if (response.data.resultCode === 0) {
     dispatch(setStatus(status))
+  }
+}
+
+export const savePhoto = (foto) => async (dispatch) => {
+  const response = await usersAPI.savePhoto(foto)
+  if (response.data.resultCode === 0) {
+    dispatch(savePhotoSuccess(response.data.data.photos))
+  }
+}
+
+export const saveProfile = (userProfile) => async (dispatch, getState) => {
+  const userId = getState().auth.authUserId
+  const response = await usersAPI.saveProfile(userProfile)
+  if (response.data.resultCode === 0) {
+    dispatch(getProfile(userId))
+  } else {
+    // let message =
+    //   response.data.messages.length > 0
+    //     ? response.data.messages[0]
+    //     : 'Some error'
+    // dispatch(stopSubmit('loginForm', { _error: response.data.messages[0] }))
+
+    // ошибка для конкретного филда
+    // dispatch(
+    //   stopSubmit('userInfoForm', {
+    //     contacts: { facebook: response.data.messages[0] },
+    //   })
+    // )
+
+    dispatch(stopSubmit('userInfoForm', { _error: response.data.messages[0] }))
+    return Promise.reject(response.data.messages[0])
   }
 }
