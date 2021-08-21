@@ -7,7 +7,7 @@ import { createField, Input } from '../FormsControl/FormsControl'
 
 const maxLength30 = maxLength(30)
 
-const LoginForm = ({ handleSubmit, error }) => {
+const LoginForm = ({ handleSubmit, error, captchaUrl }) => {
   return (
     <form onSubmit={handleSubmit} className={s.form}>
       {createField(Input, 'login', [requiredField, maxLength30], 'Email')}
@@ -27,6 +27,11 @@ const LoginForm = ({ handleSubmit, error }) => {
         {},
         'запомнить меня'
       )}
+
+      {captchaUrl ? <img src={captchaUrl} alt="captcha" /> : null}
+
+      {captchaUrl ? createField(Input, 'captcha', [], 'Введите символы') : null}
+
       {error ? <div className={s.overallError}>{error}</div> : null}
 
       <div>
@@ -40,12 +45,17 @@ const ReduxLoginForm = reduxForm({ form: 'loginForm' })(LoginForm)
 
 const Login = (props) => {
   const onLogin = (formData) => {
-    props.login(formData.login, formData.password, formData.rememberMe)
+    props.login(
+      formData.login,
+      formData.password,
+      formData.rememberMe,
+      formData.captcha
+    )
   }
 
   return (
     <div className={os.block + ' ' + s.login}>
-      <ReduxLoginForm onSubmit={onLogin} />
+      <ReduxLoginForm onSubmit={onLogin} captchaUrl={props.captchaUrl} />
     </div>
   )
 }
