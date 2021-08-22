@@ -162,7 +162,7 @@ type ToggleFollowingInProgressActionType = {
   userId: number
 }
 
-export const toggleFollowingInProgress = (
+const toggleFollowingInProgress = (
   isFetching: boolean,
   userId: number
 ): ToggleFollowingInProgressActionType => ({

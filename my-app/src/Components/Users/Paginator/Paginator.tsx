@@ -1,8 +1,22 @@
-import React, { useState } from "react"
-import s from "./Paginator.module.css"
+import React, { useState } from 'react'
+import s from './Paginator.module.css'
 
-const Paginator = (props) => {
-  const pageCount = Math.ceil(props.totalUsersCount / props.pageSize)
+type PropsType = {
+  totalUsersCount: number
+  pageSize: number
+  portionSize: number
+  currentPage: number
+  onPageChaged: (pageNumber: number) => void
+}
+
+const Paginator: React.FC<PropsType> = ({
+  totalUsersCount,
+  pageSize,
+  portionSize,
+  onPageChaged,
+  currentPage,
+}) => {
+  const pageCount = Math.ceil(totalUsersCount / pageSize)
 
   const pages = []
 
@@ -10,10 +24,10 @@ const Paginator = (props) => {
     pages.push(i)
   }
 
-  const portionCount = Math.ceil(pageCount / props.portionSize)
+  const portionCount = Math.ceil(pageCount / portionSize)
   let [currentPortion, setCurrentPortion] = useState(1)
-  const leftLimit = (currentPortion - 1) * props.portionSize - 1
-  const rightLimit = currentPortion * props.portionSize
+  const leftLimit = (currentPortion - 1) * portionSize - 1
+  const rightLimit = currentPortion * portionSize
 
   return (
     <div className={s.paginator}>
@@ -30,10 +44,10 @@ const Paginator = (props) => {
         .filter((p) => p >= leftLimit && p <= rightLimit)
         .map((p) => (
           <button
-            className={p === props.currentPage ? s.active : undefined}
+            className={p === currentPage ? s.active : undefined}
             key={p}
             onClick={() => {
-              props.onPageChaged(p)
+              onPageChaged(p)
             }}
           >
             {p}

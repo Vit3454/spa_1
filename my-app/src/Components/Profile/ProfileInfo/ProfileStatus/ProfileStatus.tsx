@@ -1,8 +1,18 @@
-import React from "react"
-import osc from "../../../../App.module.css"
-import s from "./ProfileStatus.module.css"
+import React, { ChangeEvent } from 'react'
+import osc from '../../../../App.module.css'
+import s from './ProfileStatus.module.css'
 
-class ProfileStatus extends React.Component {
+type PropsType = {
+  status: string
+  updateStatus: (newStatus: string) => void
+}
+
+type StateType = {
+  editMode: boolean
+  status: string
+}
+
+class ProfileStatus extends React.Component<PropsType, StateType> {
   state = {
     editMode: false,
     status: this.props.status,
@@ -24,7 +34,7 @@ class ProfileStatus extends React.Component {
     this.props.updateStatus(this.state.status)
   }
 
-  onStatusChange = (e) => {
+  onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
     this.setState({
       status: e.currentTarget.value,
     })
@@ -32,7 +42,7 @@ class ProfileStatus extends React.Component {
 
   render() {
     return (
-      <div className={osc.component + " " + s.ProfileStatus}>
+      <div className={osc.component + ' ' + s.ProfileStatus}>
         <div>
           {this.state.editMode ? (
             <input
@@ -43,7 +53,7 @@ class ProfileStatus extends React.Component {
             />
           ) : (
             <span onDoubleClick={this.activateEditMode.bind(this)}>
-              {this.props.status ? this.props.status : "-------"}
+              {this.props.status ? this.props.status : '-------'}
             </span>
           )}
         </div>

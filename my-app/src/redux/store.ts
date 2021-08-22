@@ -8,7 +8,7 @@ import ReduxThunk from 'redux-thunk'
 import { reducer as formReducer } from 'redux-form'
 import appReducer from './app-reducer'
 
-let reducers = combineReducers({
+let rootReducer = combineReducers({
   profilePage: profileReducer,
   dialogsPage: dialogsReducers,
   usersPage: usersReducer,
@@ -18,8 +18,12 @@ let reducers = combineReducers({
   app: appReducer,
 })
 
-let store = createStore(reducers, applyMiddleware(ReduxThunk))
+type RootReducersType = typeof rootReducer
+
+export type AppStateType = ReturnType<RootReducersType>
+
+let store = createStore(rootReducer, applyMiddleware(ReduxThunk))
 
 export default store
-
+// @ts-ignore
 window.store = store
