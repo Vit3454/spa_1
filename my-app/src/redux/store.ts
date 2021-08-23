@@ -22,6 +22,14 @@ type RootReducersType = typeof rootReducer
 
 export type AppStateType = ReturnType<RootReducersType>
 
+// key - actionName in object
+// значение - с помощью infer определяем тип
+type PropertiesTypes<T> = T extends { [key: string]: infer U } ? U : never
+
+export type InferActionsType<
+  T extends { [key: string]: (...arg: any[]) => any }
+> = ReturnType<PropertiesTypes<T>>
+
 let store = createStore(rootReducer, applyMiddleware(ReduxThunk))
 
 export default store
