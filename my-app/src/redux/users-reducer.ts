@@ -1,6 +1,8 @@
 import { Dispatch } from 'redux'
 import { ThunkAction } from 'redux-thunk'
-import { usersAPI } from '../api/api'
+import { ResultCodeEnum } from '../api/api'
+import { followAPI } from '../api/followAPI'
+import { usersAPI } from '../api/usersAPI'
 import { updateObjectInArray } from '../Components/utils/object-helper'
 import { UserType } from '../types/types'
 import { AppStateType, InferActionsType } from './store'
@@ -175,8 +177,8 @@ const followUnfollow = async (
   actionCreator: (userId: number) => ActionsType
 ) => {
   dispatch(actions.toggleFollowingInProgress(true, userId))
-  const response = await apiMehod(userId)
-  if (response.data.resultCode === 0) {
+  const res = await apiMehod(userId)
+  if (res.data.resultCode === ResultCodeEnum.Success) {
     dispatch(actionCreator(userId))
   }
   dispatch(actions.toggleFollowingInProgress(false, userId))
@@ -185,11 +187,16 @@ const followUnfollow = async (
 export const follow =
   (userId: number): ThunkType =>
   async (dispatch) => {
-    followUnfollow(dispatch, userId, usersAPI.follow, actions.followSuccess)
+    followUnfollow(dispatch, userId, followAPI.follow, actions.followSuccess)
   }
 
 export const unfollow =
   (userId: number): ThunkType =>
   async (dispatch) => {
-    followUnfollow(dispatch, userId, usersAPI.unfollow, actions.unfollowSuccess)
+    followUnfollow(
+      dispatch,
+      userId,
+      followAPI.unfollow,
+      actions.unfollowSuccess
+    )
   }

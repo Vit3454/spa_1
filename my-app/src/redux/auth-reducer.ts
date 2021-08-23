@@ -1,5 +1,7 @@
 import { stopSubmit } from 'redux-form'
-import { ResultCodeEnum, ResultCodeForCaptcha, usersAPI } from '../api/api'
+import { ResultCodeEnum, ResultCodeForCaptcha } from '../api/api'
+import { authAPI } from '../api/authAPI'
+import { securityAPI } from '../api/securityAPI'
 
 const SET_USER_DATA = 'AUTH_REDUCER/SET_USER_DATA'
 const GET_CAPTCHA_URL_SUCCESS = 'AUTH_REDUCER/GET_CAPTCHA_URL_SUCCESS'
@@ -70,7 +72,7 @@ const getCaptchaUrlSuccess = (
 // thunk
 
 export const getAuthUserData = () => async (dispatch: any) => {
-  const res = await usersAPI.auth()
+  const res = await authAPI.auth()
   if (res.resultCode === ResultCodeEnum.Success) {
     let { id, email, login } = res.data
     dispatch(setAuthUserData(id, email, login, true))
@@ -79,13 +81,13 @@ export const getAuthUserData = () => async (dispatch: any) => {
 
 export const login =
   (
-    login: string,
+    email: string,
     password: string,
     rememberMe: boolean,
     captcha: string | null
   ) =>
   async (dispatch: any) => {
-    const res = await usersAPI.login(login, password, rememberMe, captcha)
+    const res = await authAPI.login(email, password, rememberMe, captcha)
     if (res.resultCode === ResultCodeEnum.Success) {
       dispatch(setAuthUserData(null, null, null, false))
     }
@@ -101,14 +103,14 @@ export const login =
   }
 
 export const logout = () => async (dispatch: any) => {
-  const response = await usersAPI.logout()
-  if (response.data.resultCode === 0) {
+  const res = await authAPI.logout()
+  if (res.resultCode === ResultCodeEnum.Success) {
     dispatch(setAuthUserData(null, null, null, false))
   }
 }
 
 const getCaptchaUrl = () => async (dispatch: any) => {
-  const response = await usersAPI.getCaptcha()
-  const captchaUrl = response.data.url
+  const url = await securityAPI.getCaptcha()
+  const captchaUrl = url
   dispatch(getCaptchaUrlSuccess(captchaUrl))
 }

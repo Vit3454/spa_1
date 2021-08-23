@@ -38,7 +38,7 @@ const LoginForm: React.FC<
         'password',
         [requiredField, maxLength30],
         'Password',
-        undefined,
+        'password',
         {},
         undefined
       )}

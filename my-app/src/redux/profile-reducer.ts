@@ -1,5 +1,7 @@
 import { stopSubmit } from 'redux-form'
-import { usersAPI } from '../api/api'
+import { ResultCodeEnum } from '../api/api'
+import { imageAPI } from '../api/imageAPI'
+import { profileAPI } from '../api/profileAPI'
 import { PhotosType, PostType, UserProfileType } from '../types/types'
 
 const ADD_POST = 'PROFILE_REDUCER/ADD_POST'
@@ -125,19 +127,19 @@ const savePhotoSuccess = (photos: PhotosType): SavePhotoSuccessActionType => ({
 // thunk
 
 export const getProfile = (userId: number) => async (dispatch: any) => {
-  const response = await usersAPI.getProfile(userId)
-  dispatch(setUserProfile(response.data))
+  const res = await profileAPI.getProfile(userId)
+  dispatch(setUserProfile(res))
 }
 
 export const getStatus = (userId: number) => async (dispatch: any) => {
-  const response = await usersAPI.getStatus(userId)
-  dispatch(setStatus(response.data))
+  const res = await profileAPI.getStatus(userId)
+  dispatch(setStatus(res))
 }
 
 export const updateStatus = (status: string) => async (dispatch: any) => {
   try {
-    const response = await usersAPI.updateStatus(status)
-    if (response.data.resultCode === 0) {
+    const res = await profileAPI.updateStatus(status)
+    if (res.resultCode === ResultCodeEnum.Success) {
       dispatch(setStatus(status))
     }
   } catch (error) {
@@ -146,35 +148,34 @@ export const updateStatus = (status: string) => async (dispatch: any) => {
 }
 
 export const savePhoto = (foto: any) => async (dispatch: any) => {
-  const response = await usersAPI.savePhoto(foto)
-  if (response.data.resultCode === 0) {
-    dispatch(savePhotoSuccess(response.data.data.photos))
+  const res = await imageAPI.savePhoto(foto)
+  debugger
+  if (res.resultCode === ResultCodeEnum.Success) {
+    debugger
+    dispatch(savePhotoSuccess(res.data.photos))
   }
 }
 
 export const saveProfile =
   (userProfile: UserProfileType) => async (dispatch: any, getState: any) => {
     const userId = getState().auth.authUserId
-    const response = await usersAPI.saveProfile(userProfile)
-    if (response.data.resultCode === 0) {
+    const res = await profileAPI.saveProfile(userProfile)
+    debugger
+    if (res.resultCode === ResultCodeEnum.Success) {
       dispatch(getProfile(userId))
     } else {
       // let message =
-      //   response.data.messages.length > 0
-      //     ? response.data.messages[0]
+      //   res.data.messages.length > 0
+      //     ? res.data.messages[0]
       //     : 'Some error'
-      // dispatch(stopSubmit('loginForm', { _error: response.data.messages[0] }))
-
+      // dispatch(stopSubmit('loginForm', { _error: res.data.messages[0] }))
       // ошибка для конкретного филда
       // dispatch(
       //   stopSubmit('userInfoForm', {
-      //     contacts: { facebook: response.data.messages[0] },
+      //     contacts: { facebook: res.data.messages[0] },
       //   })
       // )
-
-      dispatch(
-        stopSubmit('userInfoForm', { _error: response.data.messages[0] })
-      )
-      return Promise.reject(response.data.messages[0])
+      dispatch(stopSubmit('userInfoForm', { _error: res.messages[0] }))
+      return Promise.reject(res.messages[0])
     }
   }
