@@ -16,6 +16,7 @@ const Dialogs = (props) => {
 
   // send messages
   const onAddMessage = (formData) => {
+    console.log(formData)
     props.sendMessage(formData.message)
   }
 

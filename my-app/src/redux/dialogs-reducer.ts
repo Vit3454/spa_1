@@ -1,4 +1,4 @@
-const SEND_MESSAGE = 'DIALOGS_REDUCER/SEND_MESSAGE'
+import { InferActionsType } from './store'
 
 type DialogType = {
   id: number
@@ -28,14 +28,12 @@ const initialState = {
   ] as Array<MessageType>,
 }
 
-type InitialStateType = typeof initialState
-
 const dialogsReducers = (
   state = initialState,
-  action: any
+  action: ActionsType
 ): InitialStateType => {
   switch (action.type) {
-    case SEND_MESSAGE:
+    case 'SEND_MESSAGE':
       const newMessage = {
         id: 5,
         message: action.newMessage,
@@ -52,12 +50,15 @@ const dialogsReducers = (
 
 export default dialogsReducers
 
-type SendMessageType = {
-  type: typeof SEND_MESSAGE
-  newMessage: string
+export const actions = {
+  sendMessage: (newMessage: string) =>
+    ({
+      type: 'SEND_MESSAGE',
+      newMessage,
+    } as const),
 }
 
-export const sendMessage = (newMessage: string): SendMessageType => ({
-  type: SEND_MESSAGE,
-  newMessage,
-})
+// выводим тип для inititalSate
+type InitialStateType = typeof initialState
+// выводим тип для actions
+type ActionsType = InferActionsType<typeof actions>

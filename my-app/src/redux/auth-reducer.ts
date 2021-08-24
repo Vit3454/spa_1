@@ -1,10 +1,9 @@
-import { stopSubmit } from 'redux-form'
+import { Action } from 'redux'
+import { FormAction, stopSubmit } from 'redux-form'
 import { ResultCodeEnum, ResultCodeForCaptcha } from '../api/api'
 import { authAPI } from '../api/authAPI'
 import { securityAPI } from '../api/securityAPI'
-
-const SET_USER_DATA = 'AUTH_REDUCER/SET_USER_DATA'
-const GET_CAPTCHA_URL_SUCCESS = 'AUTH_REDUCER/GET_CAPTCHA_URL_SUCCESS'
+import { BaseThunkType, InferActionsType } from './store'
 
 const initialState = {
   authUserId: null as number | null,
@@ -14,17 +13,18 @@ const initialState = {
   captchaUrl: null as string | null,
 }
 
-type InitialStateType = typeof initialState
-
-const authReducer = (state = initialState, action: any): InitialStateType => {
+const authReducer = (
+  state = initialState,
+  action: ActionsType
+): InitialStateType => {
   switch (action.type) {
-    case SET_USER_DATA:
+    case 'SET_USER_DATA':
       return {
         ...state,
         ...action.userData,
       }
 
-    case GET_CAPTCHA_URL_SUCCESS:
+    case 'GET_CAPTCHA_URL_SUCCESS':
       return {
         ...state,
         captchaUrl: action.captchaUrl,
@@ -37,45 +37,32 @@ const authReducer = (state = initialState, action: any): InitialStateType => {
 
 export default authReducer
 
-type SetAuthUserDataActionType = {
-  type: typeof SET_USER_DATA
-  userData: {
-    authUserId: number | null
-    email: string | null
-    login: string | null
+export const actions = {
+  setAuthUserData: (
+    authUserId: number | null,
+    email: string | null,
+    login: string | null,
     isAuth: boolean
-  }
+  ) =>
+    ({
+      type: 'SET_USER_DATA',
+      userData: { authUserId, email, login, isAuth },
+    } as const),
+
+  getCaptchaUrlSuccess: (captchaUrl: string) =>
+    ({
+      type: 'GET_CAPTCHA_URL_SUCCESS',
+      captchaUrl,
+    } as const),
 }
-
-export const setAuthUserData = (
-  authUserId: number | null,
-  email: string | null,
-  login: string | null,
-  isAuth: boolean
-): SetAuthUserDataActionType => ({
-  type: SET_USER_DATA,
-  userData: { authUserId, email, login, isAuth },
-})
-
-type getCaptchaUrlSuccessActionType = {
-  type: typeof GET_CAPTCHA_URL_SUCCESS
-  captchaUrl: string
-}
-
-const getCaptchaUrlSuccess = (
-  captchaUrl: string
-): getCaptchaUrlSuccessActionType => ({
-  type: GET_CAPTCHA_URL_SUCCESS,
-  captchaUrl,
-})
 
 // thunk
 
-export const getAuthUserData = () => async (dispatch: any) => {
+export const getAuthUserData = (): ThunkType => async (dispatch) => {
   const res = await authAPI.auth()
   if (res.resultCode === ResultCodeEnum.Success) {
     let { id, email, login } = res.data
-    dispatch(setAuthUserData(id, email, login, true))
+    dispatch(actions.setAuthUserData(id, email, login, true))
   }
 }
 
@@ -85,11 +72,11 @@ export const login =
     password: string,
     rememberMe: boolean,
     captcha: string | null
-  ) =>
-  async (dispatch: any) => {
+  ): ThunkType =>
+  async (dispatch) => {
     const res = await authAPI.login(email, password, rememberMe, captcha)
     if (res.resultCode === ResultCodeEnum.Success) {
-      dispatch(setAuthUserData(null, null, null, false))
+      dispatch(actions.setAuthUserData(null, null, null, false))
     }
     if (res.resultCode === ResultCodeEnum.Success) {
       dispatch(getAuthUserData())
@@ -102,15 +89,22 @@ export const login =
     }
   }
 
-export const logout = () => async (dispatch: any) => {
+export const logout = (): ThunkType => async (dispatch) => {
   const res = await authAPI.logout()
   if (res.resultCode === ResultCodeEnum.Success) {
-    dispatch(setAuthUserData(null, null, null, false))
+    dispatch(actions.setAuthUserData(null, null, null, false))
   }
 }
 
-const getCaptchaUrl = () => async (dispatch: any) => {
+const getCaptchaUrl = (): ThunkType => async (dispatch) => {
   const url = await securityAPI.getCaptcha()
   const captchaUrl = url
-  dispatch(getCaptchaUrlSuccess(captchaUrl))
+  dispatch(actions.getCaptchaUrlSuccess(captchaUrl))
 }
+
+// выводим тип для initialState
+type InitialStateType = typeof initialState
+// выводим тип для actions
+type ActionsType = InferActionsType<typeof actions>
+// выводим тип для thunk
+type ThunkType = BaseThunkType<ActionsType | FormAction>

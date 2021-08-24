@@ -5,7 +5,7 @@ import { followAPI } from '../api/followAPI'
 import { usersAPI } from '../api/usersAPI'
 import { updateObjectInArray } from '../Components/utils/object-helper'
 import { UserType } from '../types/types'
-import { AppStateType, InferActionsType } from './store'
+import { AppStateType, BaseThunkType, InferActionsType } from './store'
 
 const initialState = {
   users: [] as Array<UserType>,
@@ -16,8 +16,6 @@ const initialState = {
   followingInProgress: [] as Array<number>,
   portionSize: 10,
 }
-
-type InitialStataType = typeof initialState
 
 const usersReducer = (
   state = initialState,
@@ -93,8 +91,6 @@ const usersReducer = (
 
 export default usersReducer
 
-type ActionsType = InferActionsType<typeof actions>
-
 export const actions = {
   setUsers: (users: Array<UserType>) =>
     ({
@@ -142,9 +138,8 @@ export const actions = {
 
 // thunk
 
-type GetStateType = () => AppStateType
+// type GetStateType = () => AppStateType
 type DispatchType = Dispatch<ActionsType>
-type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsType>
 
 // export const getUsers =
 //   (pageSize: number, currentPage: number) =>
@@ -161,7 +156,7 @@ type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsType>
 
 export const getUsers =
   (pageSize: number, currentPage: number): ThunkType =>
-  async (dispatch, getState) => {
+  async (dispatch) => {
     dispatch(actions.setCurrentPage(currentPage))
     dispatch(actions.toggleIsFetching(true))
     const data = await usersAPI.getUsers(pageSize, currentPage)
@@ -200,3 +195,9 @@ export const unfollow =
       actions.unfollowSuccess
     )
   }
+
+// выводим тип для inititalState
+type InitialStataType = typeof initialState
+type ActionsType = InferActionsType<typeof actions>
+// выводим тип для thunk
+type ThunkType = BaseThunkType<ActionsType>

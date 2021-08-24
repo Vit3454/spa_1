@@ -1,4 +1,4 @@
-import profileReducer, { addPost, deletePost } from './profile-reducer'
+import profileReducer, { actions } from './profile-reducer'
 // Три этапа в тесте
 // 1. Стартовый данные
 // 2. Action
@@ -20,7 +20,7 @@ const state = {
 }
 
 test('New post should be added', () => {
-  const action = addPost('Hello world')
+  const action = actions.addPost('Hello world')
 
   let newState = profileReducer(state, action)
 
@@ -28,7 +28,7 @@ test('New post should be added', () => {
 })
 
 test('Message of new post should be correct', () => {
-  const action = addPost('Hello world')
+  const action = actions.addPost('Hello world')
 
   let newState = profileReducer(state, action)
 
@@ -36,7 +36,7 @@ test('Message of new post should be correct', () => {
 })
 
 test('after deleting length of messages should be decrement', () => {
-  const action = deletePost(1)
+  const action = actions.deletePost(1)
 
   let newState = profileReducer(state, action)
 

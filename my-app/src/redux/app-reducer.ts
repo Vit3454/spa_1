@@ -1,18 +1,20 @@
 import { getAuthUserData } from './auth-reducer'
+import { InferActionsType } from './store'
 
-const SET_INITIALIZED = 'APP_REDUCER/SET_INITIALIZED'
-
-type InitialStateType = {
-  initialized: boolean
-}
-
-const initialState: InitialStateType = {
+const initialState = {
   initialized: false,
 }
 
-const appReducer = (state = initialState, action: any): InitialStateType => {
+type InitialStateType = typeof initialState
+// выводим типы экшенов
+type ActionsType = InferActionsType<typeof actions>
+
+const appReducer = (
+  state = initialState,
+  action: ActionsType
+): InitialStateType => {
   switch (action.type) {
-    case SET_INITIALIZED:
+    case 'SET_INITIALIZED':
       return {
         ...state,
         initialized: true,
@@ -25,19 +27,18 @@ const appReducer = (state = initialState, action: any): InitialStateType => {
 
 export default appReducer
 
-type SetInitializedActionType = {
-  type: typeof SET_INITIALIZED
+const actions = {
+  setInitialized: () =>
+    ({
+      type: 'SET_INITIALIZED',
+    } as const),
 }
-
-const setInitialized = (): SetInitializedActionType => ({
-  type: SET_INITIALIZED,
-})
 
 // thunk
 
 export const initialize = () => (dispatch: any) => {
   let promise = dispatch(getAuthUserData())
   Promise.all([promise]).then(() => {
-    dispatch(setInitialized())
+    dispatch(actions.setInitialized())
   })
 }
