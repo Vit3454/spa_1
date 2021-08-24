@@ -11,13 +11,19 @@ import { connect } from 'react-redux'
 import LoginContainer from './Components/Login/LoginContainer'
 import { initialize } from './redux/app-reducer'
 import { Provider } from 'react-redux'
-import store from './redux/store'
+import store, { AppStateType } from './redux/store'
 import { Suspense } from 'react'
 // import TestPage from './Components/TestPage/TestPage'
 const TestPage = React.lazy(() => import('./Components/TestPage/TestPage'))
 
-class App extends React.Component {
-  // catchAllUnhandledError = (reason, promise) => {
+type MapStateType = ReturnType<typeof mapStateToProps>
+
+type MapDispatchType = {
+  initialize: () => void
+}
+
+class App extends React.Component<MapStateType & MapDispatchType> {
+  // catchAllUnhandledError = (e: PromiseRejectionEvent) => {
   //   alert('Some error occured')
   // }
 
@@ -66,7 +72,7 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppStateType) => ({
   initialized: state.app.initialized,
 })
 

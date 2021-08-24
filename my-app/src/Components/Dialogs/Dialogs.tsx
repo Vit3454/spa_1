@@ -4,20 +4,25 @@ import os from '../../App.module.css'
 import Dialog from './Dialog/Dialog'
 import Message from './Message/Message'
 import ReduxDialogsForm from './DialogsForm/DialogsForm'
+import { DialogType, MessageType } from '../../redux/dialogs-reducer'
 
-const Dialogs = (props) => {
-  const dialogsElements = props.dialogs.map((d) => {
+type PropsType = {
+  dialogs: Array<DialogType>
+  messages: Array<MessageType>
+  sendMessage: (newMessage: string) => void
+}
+
+const Dialogs: React.FC<PropsType> = ({ dialogs, messages, sendMessage }) => {
+  const dialogsElements = dialogs.map((d) => {
     return <Dialog key={d.id} name={d.name} id={d.id} />
   })
 
-  const messagesElements = props.messages.map((m) => {
+  const messagesElements = messages.map((m) => {
     return <Message key={m.id} message={m.message} />
   })
 
-  // send messages
-  const onAddMessage = (formData) => {
-    console.log(formData)
-    props.sendMessage(formData.message)
+  const onAddMessage = (formData: { message: string }) => {
+    sendMessage(formData.message)
   }
 
   return (

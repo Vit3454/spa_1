@@ -1,5 +1,4 @@
 import { Dispatch } from 'redux'
-import { ThunkAction } from 'redux-thunk'
 import { ResultCodeEnum } from '../api/api'
 import { followAPI } from '../api/followAPI'
 import { usersAPI } from '../api/usersAPI'
