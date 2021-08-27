@@ -2,7 +2,7 @@ import { UserProfileType } from '../types/types'
 import { APIResponseType, instance, ResultCodeEnum } from './api'
 
 export const profileAPI = {
-  getProfile: (userId: number) => {
+  getProfile: (userId: number | null) => {
     return instance
       .get<UserProfileType>(`profile/${userId}`)
       .then((res) => res.data)
@@ -14,7 +14,7 @@ export const profileAPI = {
       .then((res) => res.data)
   },
 
-  updateStatus: (status: string) => {
+  updateStatus: (status: string | null) => {
     return instance
       .put<APIResponseType>(`profile/status`, {
         status: status,

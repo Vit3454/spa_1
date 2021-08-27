@@ -13,7 +13,6 @@ import { initialize } from './redux/app-reducer'
 import { Provider } from 'react-redux'
 import store, { AppStateType } from './redux/store'
 import { Suspense } from 'react'
-// import TestPage from './Components/TestPage/TestPage'
 const TestPage = React.lazy(() => import('./Components/TestPage/TestPage'))
 
 type MapStateType = ReturnType<typeof mapStateToProps>
@@ -23,21 +22,9 @@ type MapDispatchType = {
 }
 
 class App extends React.Component<MapStateType & MapDispatchType> {
-  // catchAllUnhandledError = (e: PromiseRejectionEvent) => {
-  //   alert('Some error occured')
-  // }
-
   componentDidMount() {
     this.props.initialize()
-    // window.addEventListener('unhandledrejection', this.catchAllUnhandledError)
   }
-
-  // componentWillMount() {
-  //   window.removeEventListener(
-  //     'unhandledrejection',
-  //     this.catchAllUnhandledError
-  //   )
-  // }
 
   render() {
     if (!this.props.initialized) return <div>initialize...</div>

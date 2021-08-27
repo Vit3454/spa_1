@@ -1,7 +1,9 @@
 import React from 'react'
 import preloader from '../../../images/preloader.gif'
 
-const Preloader = (props) => {
+type PreloaderPropsType = {}
+
+const Preloader: React.FC<PreloaderPropsType> = (props) => {
   return (
     <div>
       <img src={preloader} alt="Preloader" />

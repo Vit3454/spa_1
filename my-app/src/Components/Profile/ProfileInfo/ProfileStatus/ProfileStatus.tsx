@@ -3,23 +3,17 @@ import osc from '../../../../App.module.css'
 import s from './ProfileStatus.module.css'
 
 type PropsType = {
-  status: string
-  updateStatus: (newStatus: string) => void
+  status: string | null
+  updateStatus: (newStatus: string | null) => void
 }
 
-type StateType = {
-  editMode: boolean
-  status: string
-}
-
-class ProfileStatus extends React.Component<PropsType, StateType> {
+class ProfileStatus extends React.Component<PropsType> {
   state = {
     editMode: false,
     status: this.props.status,
   }
 
   activateEditMode() {
-    // this.setState async function
     this.setState({
       editMode: true,
       status: this.props.status,
@@ -27,7 +21,6 @@ class ProfileStatus extends React.Component<PropsType, StateType> {
   }
 
   deActivateEditMode() {
-    // setState async function!
     this.setState({
       editMode: false,
     })
@@ -46,7 +39,7 @@ class ProfileStatus extends React.Component<PropsType, StateType> {
         <div>
           {this.state.editMode ? (
             <input
-              value={this.state.status}
+              value={this.state.status as string}
               onChange={this.onStatusChange}
               onBlur={this.deActivateEditMode.bind(this)}
               autoFocus={true}

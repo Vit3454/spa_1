@@ -3,14 +3,24 @@ import s from './Posts.module.css'
 import osc from '../../../App.module.css'
 import Post from './Post/Post'
 import ReduxNewPostForm from './NewPostForm/NewPostForm'
+import { PostType } from '../../../types/types'
 
-const Posts = (props) => {
-  const postElements = props.posts.map((p) => {
-    return <Post key={p.id} name={p.name} message={p.message} />
+type PropsType = {
+  posts: Array<PostType>
+  addPost: (newPost: string) => void
+}
+
+const Posts: React.FC<PropsType> = ({ posts, addPost }) => {
+  const postElements = posts.map((p) => {
+    return <Post key={p.id} message={p.message} />
   })
+
+  type FormDataType = {
+    message: string
+  }
   // add new post
-  const onAddPost = (formData) => {
-    props.addPost(formData.message)
+  const onAddPost = (formData: FormDataType) => {
+    addPost(formData.message)
   }
 
   return (

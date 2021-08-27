@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import { RouteComponentProps, withRouter } from 'react-router-dom'
 import {
   getProfile,
   getStatus,
@@ -8,9 +8,29 @@ import {
   saveProfile,
   updateStatus,
 } from '../../redux/profile-reducer'
+import { AppStateType } from '../../redux/store'
+import { UserProfileType } from '../../types/types'
 import Profile from './Profile'
 
-class ProfileContainer extends React.Component {
+type MapStatePropsType = ReturnType<typeof mapStateToProps>
+
+type MapDispatchPropstype = {
+  getProfile: (userId: number) => void
+  getStatus: (userId: number) => void
+  updateStatus: (newStatus: string | null) => void
+  savePhoto: (foto: File) => void
+  saveProfile: (formData: UserProfileType) => Promise<any>
+}
+
+type PathParamsType = {
+  userId: string
+}
+
+type PropsType = MapStatePropsType &
+  MapDispatchPropstype &
+  RouteComponentProps<PathParamsType>
+
+class ProfileContainer extends React.Component<PropsType> {
   // refreshProfile() {
   //   let userId = this.props.match.params.userId
   //   if (!userId) {
@@ -22,13 +42,13 @@ class ProfileContainer extends React.Component {
   // }
 
   componentDidMount() {
-    let userId = this.props.match.params.userId
+    let userId: number | null = +this.props.match.params.userId
     if (!userId) {
       userId = this.props.authUserId
       if (!userId) this.props.history.push('/login')
     }
-    this.props.getProfile(userId)
-    this.props.getStatus(userId)
+    this.props.getProfile(userId as number)
+    this.props.getStatus(userId as number)
   }
 
   render() {
@@ -46,7 +66,7 @@ class ProfileContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: AppStateType) => {
   return {
     userProfile: state.profilePage.userProfile,
     isAuth: state.auth.isAuth,

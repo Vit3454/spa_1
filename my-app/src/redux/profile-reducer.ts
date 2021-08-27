@@ -78,7 +78,7 @@ export const actions = {
       userProfile,
     } as const),
 
-  setStatus: (status: string) =>
+  setStatus: (status: string | null) =>
     ({
       type: 'SET_STATUS',
       status,
@@ -114,7 +114,7 @@ export const getStatus =
   }
 
 export const updateStatus =
-  (status: string): ThunkType =>
+  (status: string | null): ThunkType =>
   async (dispatch) => {
     try {
       const res = await profileAPI.updateStatus(status)

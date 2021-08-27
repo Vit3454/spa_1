@@ -3,11 +3,16 @@ import s from './Dialog.module.css'
 import osc from '../../../App.module.css'
 import { NavLink } from 'react-router-dom'
 
-const Dialog = (props) => {
+type DialogPropsType = {
+  id: number
+  name: string
+}
+
+const Dialog: React.FC<DialogPropsType> = ({ id, name }) => {
   return (
     <div className={osc.component + ' ' + s.dialog}>
-      <NavLink to={`/dialogs/${props.id}`} activeClassName={s.active}>
-        {props.name}
+      <NavLink to={`/dialogs/${id}`} activeClassName={s.active}>
+        {name}
       </NavLink>
     </div>
   )

@@ -1,36 +1,41 @@
 import React from 'react'
 import s from './UserInfo.module.css'
 import osc from '../../../../App.module.css'
+import { ContactsType, UserProfileType } from '../../../../types/types'
 
-const UserInfo = (props) => {
+type PropsType = {
+  userProfile: UserProfileType
+}
+
+const UserInfo: React.FC<PropsType> = ({ userProfile }) => {
   return (
     <div className={osc.component + ' ' + s.userInfo}>
       <div>
         <b>Full name: </b>
-        {props.userProfile.fullName}
+        {userProfile.fullName}
       </div>
 
       <div>
         <b>Looking for a job: </b>
-        {props.userProfile.lookingForAJob ? 'yes' : 'no'}
+        {userProfile.lookingForAJob ? 'yes' : 'no'}
       </div>
 
       <div>
         <b>Профессиональные навыки: </b>
-        {props.userProfile.lookingForAJobDescription}
+        {userProfile.lookingForAJobDescription}
       </div>
 
       <div>
         <b>About me: </b>
-        {props.userProfile.aboutMe}
+        {userProfile.aboutMe}
       </div>
       <div className={s.contacts}>
         <b>Contacts: </b>
-        {Object.keys(props.userProfile.contacts).map((key) => (
+        {Object.keys(userProfile.contacts).map((key) => (
           <Contact
             key={key}
             contactTitle={key}
-            contactValue={props.userProfile.contacts[key]}
+            contactValue={userProfile.contacts[key as keyof ContactsType]}
           />
         ))}
       </div>
@@ -40,10 +45,18 @@ const UserInfo = (props) => {
 
 export default UserInfo
 
-const Contact = (props) => {
+type PropsForContactsType = {
+  contactTitle: string
+  contactValue: string
+}
+
+const Contact: React.FC<PropsForContactsType> = ({
+  contactTitle,
+  contactValue,
+}) => {
   return (
     <div className={s.contact}>
-      <b>{props.contactTitle}</b>: {props.contactValue}
+      <b>{contactTitle}</b>: {contactValue}
     </div>
   )
 }
